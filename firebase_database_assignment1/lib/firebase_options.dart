@@ -30,10 +30,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -47,29 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAQmoj7t46Em2h7I8ZDPbOHYlUoz1Zq6DU',
-    appId: '1:759973523581:web:ec7c07e1eebff721e48114',
-    messagingSenderId: '759973523581',
-    projectId: 'fir-db-987ae',
-    authDomain: 'fir-db-987ae.firebaseapp.com',
-    storageBucket: 'fir-db-987ae.firebasestorage.app',
-    measurementId: 'G-EHYLKY68VH',
+    apiKey: 'AIzaSyCkUrGJF9AVpv7nX8A0feGGCI16QeyQOa8',
+    appId: '1:1070245686260:web:d58f7f10a62286481327a1',
+    messagingSenderId: '1070245686260',
+    projectId: 'fir-assignment-2a527',
+    authDomain: 'fir-assignment-2a527.firebaseapp.com',
+    storageBucket: 'fir-assignment-2a527.firebasestorage.app',
+    measurementId: 'G-FJQS73ZGN4',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCldnDwwGAtxZKvaeafHsw-7FnqZ2lvkDI',
-    appId: '1:759973523581:android:8b7088cafadad202e48114',
-    messagingSenderId: '759973523581',
-    projectId: 'fir-db-987ae',
-    storageBucket: 'fir-db-987ae.firebasestorage.app',
+    apiKey: 'AIzaSyDZmUm9zRlce93QfxXAKZknql3QA5yuM_8',
+    appId: '1:1070245686260:android:ab2c9b4637127efd1327a1',
+    messagingSenderId: '1070245686260',
+    projectId: 'fir-assignment-2a527',
+    storageBucket: 'fir-assignment-2a527.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA2EWJsWCK-heQGhpbBipCnom5RWTjNGSI',
-    appId: '1:759973523581:ios:d826010ff13fbd68e48114',
-    messagingSenderId: '759973523581',
-    projectId: 'fir-db-987ae',
-    storageBucket: 'fir-db-987ae.firebasestorage.app',
+    apiKey: 'AIzaSyAyJeYb82rUJe1rfIzzJrSj8DY87e5YaOg',
+    appId: '1:1070245686260:ios:c3fd73f67542db701327a1',
+    messagingSenderId: '1070245686260',
+    projectId: 'fir-assignment-2a527',
+    storageBucket: 'fir-assignment-2a527.firebasestorage.app',
     iosBundleId: 'com.example.firebaseDatabaseAssignment',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCkUrGJF9AVpv7nX8A0feGGCI16QeyQOa8',
+    appId: '1:1070245686260:web:b88f74235adeabe01327a1',
+    messagingSenderId: '1070245686260',
+    projectId: 'fir-assignment-2a527',
+    authDomain: 'fir-assignment-2a527.firebaseapp.com',
+    storageBucket: 'fir-assignment-2a527.firebasestorage.app',
+    measurementId: 'G-HG9JYL3P2X',
   );
 }
