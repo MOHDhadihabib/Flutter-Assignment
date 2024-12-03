@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Firebase CRUD Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
       home: const Splash(),
@@ -43,19 +43,19 @@ class _SplashState extends State<Splash> {
     final user = auth.currentUser;
 
     Timer(
-      Duration(seconds: 3),
+      const Duration(seconds: 3),
       () {
         if (user != null) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => Home(),
+                builder: (context) => const Home(),
               ));
         } else {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => Login(),
+                builder: (context) => const Login(),
               ));
         }
       },
@@ -65,8 +65,11 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.teal[100],
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.teal),
+        ),
       ),
     );
   }
@@ -86,45 +89,221 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.teal[50],
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              'Welcome Back!',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Log in to your account',
+              style: TextStyle(fontSize: 16, color: Colors.black54),
+            ),
+            const SizedBox(height: 32),
             TextField(
               controller: emaillogin,
               decoration: InputDecoration(
-                  hintText: "Email", border: OutlineInputBorder()),
+                hintText: "Email",
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.email),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 16),
             TextField(
               controller: passlogin,
               decoration: InputDecoration(
-                  hintText: "Password", border: OutlineInputBorder()),
+                hintText: "Password",
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.lock),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
               obscureText: true,
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 32),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
               onPressed: () async {
                 String emailL = emaillogin.text.trim();
                 String passL = passlogin.text.trim();
-
                 try {
                   await FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: emailL, password: passL);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Home()),
+                  );
                 } on FirebaseAuthException catch (e) {
-                  if (e.code == 'user-not-found') {
-                    print('No user found for that email.');
-                  } else if (e.code == 'wrong-password') {
-                    print('Wrong password provided for that user.');
-                  }
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(e.message ?? 'Error occurred'),
+                  ));
                 }
-                Navigator.pushReplacement(
+              },
+              child: const Text(
+                "Log In",
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Home()),
+                  MaterialPageRoute(builder: (context) => const SignUp()),
                 );
               },
-              child: Text("Login"),
+              child: const Text(
+                "Don't have an account? Sign Up",
+                style: TextStyle(color: Colors.teal),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  TextEditingController userName = TextEditingController();
+  TextEditingController emailsignup = TextEditingController();
+  TextEditingController passsignup = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.teal[50],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Create Account',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: userName,
+              decoration: InputDecoration(
+                hintText: "Username",
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.person),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: emailsignup,
+              decoration: InputDecoration(
+                hintText: "Email",
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.email),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: passsignup,
+              decoration: InputDecoration(
+                hintText: "Password",
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.lock),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+              obscureText: true,
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () async {
+                String emailS = emailsignup.text.trim();
+                String passS = passsignup.text.trim();
+
+                try {
+                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: emailS,
+                    password: passS,
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Login()),
+                  );
+                } on FirebaseAuthException catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(e.message ?? 'Error occurred'),
+                  ));
+                }
+              },
+              child: const Text(
+                "Sign Up",
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              },
+              child: const Text(
+                "Already have an account? Log In",
+                style: TextStyle(color: Colors.teal),
+              ),
             ),
           ],
         ),
@@ -273,54 +452,27 @@ class _HomeState extends State<Home> {
                 decoration: InputDecoration(
                     hintText: "Description", border: OutlineInputBorder()),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   String title = titleController.text.trim();
                   String desc = descController.text.trim();
                   String email = emailController.text.trim();
-                  String userName = userNameController.text.trim();
+                  String username = userNameController.text.trim();
 
-                  if (id == 0) {
-                    id++;
-                    databaseReference.child(key).child("$id").set({
-                      "ID": id,
-                      "Title": title,
-                      "Description": desc,
-                      "Email": email,
-                      "Username": userName,
-                      "DateOfPost": DateTime.now().toString(),
-                    }).then(
-                      (value) {
-                        print("Successfully created");
-                      },
-                    ).onError(
-                      (error, stackTrace) {
-                        print("Failed task");
-                      },
-                    );
-                  } else {
-                    databaseReference.child(key).child("$id").update({
-                      "ID": id,
-                      "Title": title,
-                      "Description": desc,
-                      "Email": email,
-                      "Username": userName,
-                      "DateOfPost": DateTime.now().toString(),
-                    }).then(
-                      (value) {
-                        print("Successfully updated");
-                      },
-                    ).onError(
-                      (error, stackTrace) {
-                        print("Failed task");
-                      },
-                    );
-                  }
+                  DatabaseReference ref =
+                      databaseReference.child(key).child(id.toString());
+                  await ref.set({
+                    'Username': username,
+                    'Email': email,
+                    'Title': title,
+                    'Description': desc,
+                  });
+
                   Navigator.pop(context);
                 },
-                child: id == 0 ? Text("Add") : Text("Update"),
-              ),
+                child: Text(id == 0 ? "Add" : "Update"),
+              )
             ],
           ),
         );
